@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using repository.Configs;
 using repository.Contracts;
+using repository.Extensions;
 using repository.Repository;
 
 public class ConsoleHostedService : IHostedService
@@ -44,8 +45,11 @@ public class ConsoleHostedService : IHostedService
                             CollectionName = _configuration.GetSection("TrainingDatabase")["ZipCollectionName"]
                         };
 
+                        var mongoClient = new MongoClient(_credentials.Apply(dbConfig.ConnectionString));
+                        var database = mongoClient.GetDatabase(dbConfig.DatabaseName);
+
                         //not a testable approach
-                        var dbContext = new MongoDbContext(dbConfig, _credentials);
+                        var dbContext = new MongoDbContext(dbConfig, database);
                         var zip = await dbContext.ZipCollectionService.GetAsync("5c8eccc1caa187d17ca6ed16");
                         
 
