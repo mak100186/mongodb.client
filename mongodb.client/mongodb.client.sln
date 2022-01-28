@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mongodb.client", "mongodb.client.csproj", "{5EA732B6-6607-4EDD-9E8C-8EFEE1DBD95D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mongodb.repository", "..\mongodb.repository\mongodb.repository.csproj", "{D6E7A036-0E0A-4936-B676-B303ED41D4BD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5EA732B6-6607-4EDD-9E8C-8EFEE1DBD95D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EA732B6-6607-4EDD-9E8C-8EFEE1DBD95D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EA732B6-6607-4EDD-9E8C-8EFEE1DBD95D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EA732B6-6607-4EDD-9E8C-8EFEE1DBD95D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6E7A036-0E0A-4936-B676-B303ED41D4BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6E7A036-0E0A-4936-B676-B303ED41D4BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6E7A036-0E0A-4936-B676-B303ED41D4BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6E7A036-0E0A-4936-B676-B303ED41D4BD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {071E4863-F698-4E17-B9A0-729755CA9E48}
+	EndGlobalSection
+EndGlobal
