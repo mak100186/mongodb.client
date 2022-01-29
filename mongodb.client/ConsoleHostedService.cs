@@ -1,5 +1,6 @@
 ﻿namespace mongodb.client;
 
+using System.Dynamic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -39,7 +40,8 @@ public class ConsoleHostedService : IHostedService
                     {
                         _logger.LogInformation("Running Demo!");
 
-                        await RunDemoAsync();
+                        await RunLocalDemo();
+                        //await RunDemoAsync();
                         
                         _exitCode = 0;
                     }
@@ -85,5 +87,18 @@ public class ConsoleHostedService : IHostedService
         var zip = await repository.CollectionService.GetAsync("5c8eccc1caa187d17ca6ed16");
 
         Console.WriteLine($"{zip.ToJsonString()}");
+    }
+
+    private async Task RunLocalDemo()
+    {
+        var client = new MongoClient("mongodb://localhost:27017/test");
+        var db = client.GetDatabase("local");
+        var collection = db.GetCollection<Log>("logs");
+
+        var documents = await collection.Find(_ => true).ToListAsync();
+        foreach (var document in documents)
+        {
+            Console.WriteLine(document.Id);
+        }
     }
 }
