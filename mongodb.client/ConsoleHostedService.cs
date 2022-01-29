@@ -9,6 +9,7 @@ using MongoDB.Driver;
 using repository.Configs;
 using repository.Contracts;
 using repository.Extensions;
+using repository.Models;
 using repository.Repository;
 
 public class ConsoleHostedService : IHostedService
@@ -36,25 +37,10 @@ public class ConsoleHostedService : IHostedService
                 {
                     try
                     {
-                        _logger.LogInformation("Hello World!");
+                        _logger.LogInformation("Running Demo!");
 
-                        var dbConfig = new DatabaseConfigs
-                        {
-                            ConnectionString = _configuration.GetConnectionString("MongoDbContext"),
-                            DatabaseName = _configuration.GetSection("TrainingDatabase")["DatabaseName"],
-                            CollectionName = _configuration.GetSection("TrainingDatabase")["ZipCollectionName"]
-                        };
-
-                        var mongoClient = new MongoClient(_credentials.Apply(dbConfig.ConnectionString));
-                        var database = mongoClient.GetDatabase(dbConfig.DatabaseName);
-
-                        //not a testable approach
-                        var dbContext = new MongoDbContext(dbConfig, database);
-                        var zip = await dbContext.ZipCollectionService.GetAsync("5c8eccc1caa187d17ca6ed16");
+                        await RunDemoAsync();
                         
-
-                        Console.WriteLine($"zip {{ city : {zip.City}, zip : {zip.ZipCode}, loc : {{ x : {zip.Location.X}, y : {zip.Location.Y} }}, state : {zip.State}, pop : {zip.Population} }}");
-
                         _exitCode = 0;
                     }
                     catch (Exception ex)
@@ -81,5 +67,23 @@ public class ConsoleHostedService : IHostedService
         // Exit code may be null if the user cancelled via Ctrl+C/SIGTERM
         Environment.ExitCode = _exitCode.GetValueOrDefault(-1);
         return Task.CompletedTask;
+    }
+
+    private async Task RunDemoAsync()
+    {
+        var dbConfig = new DatabaseConfigs
+        {
+            ConnectionString = _configuration.GetSection("Database")["ConnectionString"],
+            DatabaseName = _configuration.GetSection("Database")["DatabaseName"],
+            CollectionName = _configuration.GetSection("Database")["CollectionName"]
+        };
+
+        var mongoClient = new MongoClient(_credentials.Apply(dbConfig.ConnectionString));
+        var database = mongoClient.GetDatabase(dbConfig.DatabaseName);
+
+        var repository = new Repository<Zip>(dbConfig, database);
+        var zip = await repository.CollectionService.GetAsync("5c8eccc1caa187d17ca6ed16");
+
+        Console.WriteLine($"{zip.ToJsonString()}");
     }
 }

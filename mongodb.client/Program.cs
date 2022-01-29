@@ -7,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 using mongodb.client;
 using mongodb.repository.Configs;
 using mongodb.repository.Contracts;
-using mongodb.repository.Repository;
 
 Console.WriteLine("Please enter the mongodb username:");
 var username = Console.ReadLine();
@@ -23,14 +22,10 @@ var credentials = new MongoDbCredentials
 
 await Host.CreateDefaultBuilder(args)
     .UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
-    .ConfigureHostConfiguration(configurationBuilder =>
-    {
-        configurationBuilder.AddJsonFile("appsettings.json", false, false);
-    })
+    .ConfigureHostConfiguration(configurationBuilder => { configurationBuilder.AddJsonFile("appsettings.json", false, false); })
     .ConfigureServices((_, services) =>
     {
         services.AddHostedService<ConsoleHostedService>();
-        services.AddSingleton<IMongoDbContext, MongoDbContext>();
         services.AddSingleton<IMongoDbCredentials>(credentials);
     })
     .RunConsoleAsync();
